@@ -4,15 +4,16 @@ import com.example.blog6.Util.JwtUtil;
 import com.example.blog6.Util.UserContext;
 import com.example.blog6.model.User;
 import com.example.blog6.repository.UserRepository;
+import com.example.blog6.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @Controller
@@ -22,6 +23,20 @@ public class UserController {
     private JwtUtil jwtUtil;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
+    //api 회원탈퇴
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId, @RequestBody Map<String, String> request) {
+        String password = request.get("password");
+        boolean isDeleted = userService.deleteUser(userId, password);
+        if (isDeleted) {
+            return ResponseEntity.ok(Map.of("message", "회원 탈퇴가 완료되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "비밀번호가 잘못되었습니다."));
+        }
+    }
 
 
     // api 명세 get loginform
