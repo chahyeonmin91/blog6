@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>블로그 메인</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let page = 0;
+        const size = 10;
+        let sort = "latest";
+
+        $(document).ready(function () {
+            loadPosts();
+
+            $(window).scroll(function () {
+                if (
+                    $(window).scrollTop() + $(window).height() >=
+                    $(document).height()
+                ) {
+                    loadPosts();
+                }
+            });
+        });
+
+        function loadPosts() {
+            $.ajax({
+                url: `/api/posts?sort=${sort}&page=${page}&size=${size}`,
+                method: "GET",
+                success: function (response) {
+                    const posts = response.content;
+                    page++;
+                    posts.forEach((post) => {
+                        $("#posts").append(`
+                            <div class="post">
+                                <h2>${post.title}</h2>
+                                <p>${post.excerpt}</p>
+                                <div class="author">
+                                    <img src="${post.authorProfileImage}" alt="profile" />
+                                    <span>${post.authorUsername}</span>
+                                </div>
+                                <span>좋아요: ${post.likes}</span>
+                            </div>
+                        `);
+                    });
+                },
+                error: function (error) {
+                    console.error("Error loading posts", error);
+                },
+            });
+        }
+    </script>
+    <style>
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<h1>블로그 메인</h1>
+<div id="posts"></div>
+</body>
+</html>

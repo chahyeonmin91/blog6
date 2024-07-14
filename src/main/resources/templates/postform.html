@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Post Form</title>
+  <style>
+    .button {
+      background-color: #8b4513; /* 갈색 */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #a0522d; /* 좀 더 밝은 갈색 */
+    }
+  </style>
+  <script>
+    let postId = null;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      saveDraft();
+
+      document.getElementById("publishPost").addEventListener("click", function () {
+        document.getElementById("publishStatus").value = "true";
+        document.getElementById("postForm").submit();
+      });
+
+      document.getElementById("saveDraft").addEventListener("click", function () {
+        document.getElementById("publishStatus").value = "false";
+        document.getElementById("postForm").submit();
+      });
+
+      document.getElementById("image").addEventListener("change", function () {
+        uploadImage();
+      });
+    });
+
+    function saveDraft() {
+      const title = document.getElementById("title").value;
+      const tags = document.getElementById("tags").value;
+      const content = document.getElementById("content").value;
+
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("tags", tags);
+      formData.append("content", content);
+
+      fetch('/api/saveDraft', { // 수정
+        method: 'POST',
+        body: formData
+      })
+              .then(response => response.text())
+              .then(data => {
+                postId = data;
+                document.getElementById("postId").value = postId;
+              });
+    }
+
+    function uploadImage() {
+      const fileInput = document.getElementById("image");
+      const file = fileInput.files[0];
+
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("postId", postId);
+
+      fetch('/api/uploadImage', { // 수정
+        method: 'POST',
+        body: formData
+      })
+              .then(response => response.text())
+              .then(url => {
+                if (url) {
+                  const content = document.getElementById("content");
+                  const cursorPosition = content.selectionStart;
+                  const textBeforeCursor = content.value.substring(0, cursorPosition);
+                  const textAfterCursor = content.value.substring(cursorPosition);
+                  content.value = textBeforeCursor + `<img src="${url}" alt="uploaded image"/>` + textAfterCursor;
+                }
+              });
+    }
+  </script>
+</head>
+<body>
+<form id="postForm" action="/api/post" method="post"> <!-- 수정 -->
+  <div>
+    <label for="title">제목을 입력하세요</label>
+    <input type="text" id="title" name="title" required/>
+  </div>
+  <div>
+    <label for="tags">태그 목록을 입력하세요</label>
+    <input type="text" id="tags" name="tags" required/>
+  </div>
+  <div>
+    <textarea id="content" name="content" rows="10" cols="50" required></textarea>
+  </div>
+  <div>
+    <label for="image">이미지 추가</label>
+    <input type="file" id="image" name="image"/>
+    <img src="" alt="uploaded image" id="uploadedImage"/>
+  </div>
+  <input type="hidden" id="postId" name="postId" value=""/> <!-- 수정 -->
+  <input type="hidden" id="publishStatus" name="publishStatus" value="false"/>
+  <div>
+    <button type="button" class="button" id="saveDraft">임시저장</button>
+    <button type="button" class="button" id="publishPost">출간하기</button>
+  </div>
+</form>
+</body>
+</html>

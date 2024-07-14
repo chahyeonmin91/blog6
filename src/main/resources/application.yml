@@ -1,0 +1,29 @@
+server:
+  port: 80
+spring:
+  application:
+    name: blogproject
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/velog
+    password: bimilbunho7!
+    username: chadocker
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    user:
+      name: user
+      password: password
+  logging:
+    level:
+      org.springframework.security: DEBUG
+  jwt:
+    secret: your_secret_key
+    expiration: 86400000 # 1 day in milliseconds
