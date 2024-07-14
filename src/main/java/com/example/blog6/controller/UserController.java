@@ -38,6 +38,17 @@ public class UserController {
         }
     }
 
+    //API 회원정보수정
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody Map<String, Object> request) {
+        boolean isUpdated = userService.updateUser(userId, request);
+        if (isUpdated) {
+            return ResponseEntity.ok(Map.of("message", "회원 정보가 수정되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "잘못된 요청입니다."));
+        }
+    }
+
 
     // api 명세 get loginform
     @GetMapping("/loginform")
