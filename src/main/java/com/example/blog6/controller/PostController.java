@@ -107,4 +107,21 @@ public class PostController {
         )).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
+
+    //최신글 인기글
+    @GetMapping("/posts")
+    public ResponseEntity<?> getPosts(@RequestParam String sort) {
+        List<Post> posts = postService.getPosts(sort);
+        List<Map<String, Object>> response = posts.stream().map(post -> Map.of(
+                "postId", (Object) post.getId().toString(),
+                "title", (Object) post.getTitle(),
+                "excerpt", (Object) post.getExcerpt(),
+                "author", Map.of(
+                        "username", post.getUser().getUsername(),
+                        "profileImage", post.getUser().getProfileImage()
+                ),
+                "likes", (Object) post.getLikes().size() // Assuming Post has a getLikes method that returns a list of Like entities
+        )).collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
 }

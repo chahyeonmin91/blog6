@@ -40,4 +40,15 @@ public class PostService {
     public List<Post> getAllPostsIncludingDrafts() {
         return postRepository.findAll();
     }
+
+    //최신글 인기글
+    public List<Post> getPosts(String sort) {
+        if ("latest".equalsIgnoreCase(sort)) {
+            return postRepository.findByOrderByCreatedAtDesc();
+        } else if ("popular".equalsIgnoreCase(sort)) {
+            return postRepository.findByOrderByLikesDesc();
+        } else {
+            throw new IllegalArgumentException("Invalid sort parameter");
+        }
+    }
 }
