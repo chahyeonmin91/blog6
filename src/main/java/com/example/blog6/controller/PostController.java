@@ -120,7 +120,7 @@ public class PostController {
                         "username", post.getUser().getUsername(),
                         "profileImage", post.getUser().getProfileImage()
                 ),
-                "likes", (Object) post.getLikes().size() // Assuming Post has a getLikes method that returns a list of Like entities
+                "likes", (Object) post.getLikes() // 여기를 수정
         )).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
