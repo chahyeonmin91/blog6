@@ -4,6 +4,7 @@ import com.example.blog6.Util.JwtUtil;
 import com.example.blog6.Util.UserContext;
 import com.example.blog6.model.User;
 import com.example.blog6.repository.UserRepository;
+import com.example.blog6.service.BlogService;
 import com.example.blog6.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 
-@Controller
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -25,6 +27,9 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BlogService blogService;
+
 
     //api 회원탈퇴
     @DeleteMapping("/users/{userId}")
@@ -93,6 +98,17 @@ public class UserController {
             }
         }
         return "redirect:/loginform";
+    }
+
+    //특정 사용자 블로그 페이지 조회
+    @GetMapping("/{username}/posts")
+    public ResponseEntity<?> getUserBlogPage(@PathVariable String username) {
+        Map<String, Object> blogPage = blogService.getUserBlogPage(username);
+        if (blogPage != null) {
+            return ResponseEntity.ok(blogPage);
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "잘못된 요청입니다."));
+        }
     }
 
 

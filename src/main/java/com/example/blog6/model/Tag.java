@@ -7,17 +7,18 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Follow {
+public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "follower_id", nullable = false)
-    private User follower;
+    private String name;
+    private int count;
 
     @ManyToOne
-    @JoinColumn(name = "followee_id", nullable = false)
-    private User followee;
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
 }
