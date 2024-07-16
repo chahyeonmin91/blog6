@@ -27,6 +27,19 @@ public class CommentService {
         comment.setContent(content);
         return commentRepository.save(comment);
     }
+    // 답글 작성
+    public Comment addReply(Long postId, Long parentCommentId, String content) {
+        Post post = postRepository.findById(postId).orElse(null);
+        Comment parentComment = commentRepository.findById(parentCommentId).orElse(null);
+        if (post == null || parentComment == null) {
+            return null;
+        }
+        Comment reply = new Comment();
+        reply.setPost(post);
+        reply.setParentComment(parentComment);
+        reply.setContent(content);
+        return commentRepository.save(reply);
+    }
 
     //api 댓글 삭제
     public boolean deleteComment(Long postId, Long commentId) {

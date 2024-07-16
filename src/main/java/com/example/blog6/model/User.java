@@ -35,4 +35,12 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Series> series;
+
+    @PrePersist
+    @PreUpdate
+    private void setDefaultBlogTitle() {
+        if (this.blogTitle == null || this.blogTitle.isEmpty()) {
+            this.blogTitle = this.username;
+        }
+    }
 }

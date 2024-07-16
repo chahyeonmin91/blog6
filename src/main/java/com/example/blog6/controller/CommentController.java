@@ -31,6 +31,21 @@ public class CommentController {
         }
     }
 
+    // 답글 작성
+    @PostMapping("/{postId}/comments/{parentCommentId}/replies")
+    public ResponseEntity<?> addReply(@PathVariable Long postId, @PathVariable Long parentCommentId, @RequestBody Map<String, String> request) {
+        String content = request.get("content");
+        Comment reply = commentService.addReply(postId, parentCommentId, content);
+        if (reply != null) {
+            return ResponseEntity.ok(Map.of(
+                    "message", "답글 작성이 완료되었습니다.",
+                    "replyId", reply.getId().toString()
+            ));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "잘못된 요청입니다."));
+        }
+    }
+
     //api 댓글 삭제
     @DeleteMapping("/{postId}/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {

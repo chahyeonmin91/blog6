@@ -22,6 +22,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    // 모든 포스팅된 글 목록 조회
     @GetMapping("/posts")
     public ResponseEntity<?> getAllPosts() {
         List<Post> posts = postService.getAllPosts();
@@ -38,6 +39,7 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
+    // 관리자 권한으로 글 삭제
     @DeleteMapping("/posts/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         boolean isDeleted = postService.deletePost(postId);

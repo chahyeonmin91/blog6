@@ -6,13 +6,16 @@ import com.example.blog6.model.User;
 import com.example.blog6.repository.UserRepository;
 import com.example.blog6.service.BlogService;
 import com.example.blog6.service.UserService;
+import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -108,6 +111,55 @@ public class UserController {
             return ResponseEntity.ok(blogPage);
         } else {
             return ResponseEntity.badRequest().body(Map.of("error", "잘못된 요청입니다."));
+        }
+    }
+
+
+    // 프로필 이미지 업로드
+    @PostMapping("/{userId}/profile-image")
+    public ResponseEntity<?> uploadProfileImage(@PathVariable Long userId, @RequestParam("image") MultipartFile file) {
+        boolean isUploaded = userService.uploadProfileImage(userId, file);
+        if (isUploaded) {
+            return ResponseEntity.ok(Map.of("message", "프로필 이미지가 업로드되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "이미지 업로드에 실패했습니다."));
+        }
+    }
+
+    //프로필 이미지 삭제
+    @DeleteMapping("/users/{userId}/profile-image")
+    public ResponseEntity<?> deleteProfileImage(@PathVariable Long userId) {
+        boolean isDeleted = userService.deleteProfileImage(userId);
+        if (isDeleted) {
+            return ResponseEntity.ok(Map.of("message", "프로필 이미지가 삭제되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "잘못된 요청입니다."));
+        }
+    }
+
+
+    // 이메일 주소 변경
+    @PutMapping("/{userId}/email")
+    public ResponseEntity<?> updateEmail(@PathVariable Long userId, @RequestBody Map<String, String> request) {
+        String newEmail = request.get("email");
+        boolean isUpdated = userService.updateEmail(userId, newEmail);
+        if (isUpdated) {
+            return ResponseEntity.ok(Map.of("message", "이메일 주소가 변경되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "이메일 주소 변경에 실패했습니다."));
+        }
+    }
+
+    // 이메일 수신 설정 변경
+    @PutMapping("/{userId}/email-notifications")
+    public ResponseEntity<?> updateEmailNotifications(@PathVariable Long userId, @RequestBody Map<String, Boolean> request) {
+        boolean commentNotification = request.getOrDefault("comment", false);
+        boolean updateNotification = request.getOrDefault("update", false);
+        boolean isUpdated = userService.updateEmailNotifications(userId, commentNotification, updateNotification);
+        if (isUpdated) {
+            return ResponseEntity.ok(Map.of("message", "이메일 수신 설정이 변경되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("error", "이메일 수신 설정 변경에 실패했습니다."));
         }
     }
 
