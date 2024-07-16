@@ -16,7 +16,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByOrderByLikesDesc();
 
     //사용자가 읽은 포스트를 조회하는 메서드
-    List<Post> findByReadersContaining(User user);
+    //List<Post> findByReadersContaining(User user);
 
     // 이전/다음 글 조회 메서드 추가
     Post findFirstByAuthorAndCreatedAtBeforeOrderByCreatedAtDesc(User author, LocalDateTime createdAt);

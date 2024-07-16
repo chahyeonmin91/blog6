@@ -74,7 +74,7 @@ public class PostService {
 
     // 사용자가 읽은 글들 조회
     public List<Post> getReadPosts(User user) {
-        return postRepository.findByReadersContaining(user);
+         return null;
     }
 
 
