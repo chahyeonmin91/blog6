@@ -11,6 +11,7 @@ import com.example.blog6.service.PostService;
 
 import com.example.blog6.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,21 +30,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
-
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private ImageRepository imageRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private SeriesRepository seriesRepository;
+    private final PostService postService;
+    private final PostRepository postRepository;
+    private final ImageRepository imageRepository;
+    private final UserService userService;
+    private final SeriesRepository seriesRepository;
 
     @GetMapping("/post")
     public Page<Post> getPosts(@RequestParam String sort, Pageable pageable) {

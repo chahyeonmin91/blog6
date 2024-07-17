@@ -4,6 +4,7 @@ package com.example.blog6.controller;
 import com.example.blog6.model.Post;
 import com.example.blog6.service.PostService;
 import com.example.blog6.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +14,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/admin")
 public class AdminController {
 
-    @Autowired
-    private PostService postService;
 
-    @Autowired
-    private UserService userService;
+    private final PostService postService;
+    private final UserService userService;
 
     // 모든 포스팅된 글 목록 조회
     @GetMapping("/posts")
