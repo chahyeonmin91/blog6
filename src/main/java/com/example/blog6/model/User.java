@@ -27,6 +27,7 @@ public class User {
     private Boolean emailNotificationUpdate;
     private String introduction;
 
+
     @OneToMany(mappedBy = "author")
     private List<Post> posts;
 
