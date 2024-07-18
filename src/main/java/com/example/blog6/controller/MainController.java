@@ -17,9 +17,18 @@ public class MainController {
     public String login() {
         return "login";
     }
-    @GetMapping("/register")
-    public String register() {
-        return "register";
+    @GetMapping("/userregform")
+    public String userRegForm() {
+        return "userregform";
     }
 
+    @GetMapping("/userreg")
+    public String userReg() {
+        return "userreg";
+    }
+
+    @GetMapping("/userreg_error")
+    public String userRegError() {
+        return "userreg_error";
+    }
 }

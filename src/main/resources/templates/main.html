@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>블로그 메인</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
     <script>
         let page = 0;
         const size = 10;
@@ -49,18 +50,6 @@
             });
         }
     </script>
-    <style>
-        .post {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        .author img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-    </style>
 </head>
 <body>
 <div class="header">
@@ -68,12 +57,13 @@
 </div>
 <div class="nav">
     <a href="/login">로그인</a>
-    <a href="/register">회원가입</a>
+    <a href="/userregform">회원가입</a>
 </div>
 <div class="container">
     <div class="main-content">
         <h2>메인 페이지</h2>
         <p>환영합니다! 이곳에서 다양한 블로그 글을 탐색해보세요.</p>
+        <div id="posts"></div>
     </div>
 </div>
 </body>

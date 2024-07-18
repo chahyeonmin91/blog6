@@ -108,5 +108,22 @@ public class UserService {
         }
         return false;
     }
+    public boolean validateUser(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        return user != null && user.getPassword().equals(password);
+    }
 
+    public boolean registerUser(Map<String, String> params) {
+        try {
+            User user = new User();
+            user.setUsername(params.get("username"));
+            user.setPassword(params.get("password"));
+            user.setName(params.get("name"));
+            user.setEmail(params.get("email"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

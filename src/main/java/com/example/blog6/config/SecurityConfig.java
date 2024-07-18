@@ -18,12 +18,12 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/", "/login","/register").permitAll()
+                                .requestMatchers("/", "/login", "/userregform", "/userreg", "/userreg_error").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/")
+                                .loginPage("/login")
                                 .permitAll()
                 )
                 .logout(logout ->

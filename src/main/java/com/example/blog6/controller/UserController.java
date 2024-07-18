@@ -58,7 +58,7 @@ public class UserController {
 
 
     // api 명세 get loginform
-    @GetMapping("/loginform")
+    @GetMapping("/login")
     public String loginForm() {
         return "login";
     }
@@ -99,7 +99,7 @@ public class UserController {
                 }
             }
         }
-        return "redirect:/loginform";
+        return "redirect:/login";
     }
 
     //특정 사용자 블로그 페이지 조회
@@ -197,4 +197,15 @@ public class UserController {
         }
     }
 
+
+    @PostMapping("/register")
+    public String register(@RequestParam Map<String, String> params, Model model) {
+        boolean success = userService.registerUser(params);
+        if (success) {
+            return "redirect:/userreg";
+        } else {
+            model.addAttribute("error", "Registration failed.");
+            return "userreg_error";
+        }
+    }
 }
