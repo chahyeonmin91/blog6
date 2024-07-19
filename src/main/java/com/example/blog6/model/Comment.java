@@ -21,10 +21,10 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
-    private Comment parentComment; // 추가된 필드
+    private Comment parentComment;
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> replies; // 추가된 필드
+    private List<Comment> replies;
 
     @Column(nullable = false)
     private String content;

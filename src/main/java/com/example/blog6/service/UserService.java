@@ -3,6 +3,7 @@ package com.example.blog6.service;
 
 import com.example.blog6.model.User;
 import com.example.blog6.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,10 +17,11 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     // findByUsername 메서드 추가
     public User findByUsername(String username) {

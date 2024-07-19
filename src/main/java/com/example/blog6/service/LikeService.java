@@ -6,20 +6,18 @@ import com.example.blog6.model.User;
 import com.example.blog6.repository.LikeRepository;
 import com.example.blog6.repository.PostRepository;
 import com.example.blog6.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class LikeService {
 
-    @Autowired
-    private LikeRepository likeRepository;
 
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final LikeRepository likeRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     public boolean addLike(Long postId, String username) {
         User user = userRepository.findByUsername(username);

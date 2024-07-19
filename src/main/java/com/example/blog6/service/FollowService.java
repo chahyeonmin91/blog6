@@ -4,6 +4,7 @@ import com.example.blog6.model.Follow;
 import com.example.blog6.model.User;
 import com.example.blog6.repository.FollowRepository;
 import com.example.blog6.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FollowService {
 
-    @Autowired
-    private FollowRepository followRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final FollowRepository followRepository;
+    private final UserRepository userRepository;
 
 
     //팔로우

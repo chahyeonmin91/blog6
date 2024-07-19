@@ -4,17 +4,16 @@ import com.example.blog6.model.Comment;
 import com.example.blog6.model.Post;
 import com.example.blog6.repository.CommentRepository;
 import com.example.blog6.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
-    private PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
 
     //api 댓글 작성
     public Comment addComment(Long postId, String content) {

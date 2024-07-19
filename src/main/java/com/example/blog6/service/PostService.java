@@ -7,6 +7,7 @@ import com.example.blog6.model.User;
 import com.example.blog6.repository.LikeRepository;
 import com.example.blog6.repository.PostRepository;
 import com.example.blog6.repository.SeriesRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,14 +21,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
 
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private LikeRepository likeRepository;
-    @Autowired
-    private SeriesRepository seriesRepository;
+    private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
+    private final SeriesRepository seriesRepository;
 
     public Page<Post> getPosts(String sort, Pageable pageable) {
         // 정렬 및 페이징 로직 추가

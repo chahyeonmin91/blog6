@@ -5,6 +5,7 @@ import com.example.blog6.repository.PostRepository;
 import com.example.blog6.repository.SeriesRepository;
 import com.example.blog6.repository.TagRepository;
 import com.example.blog6.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +14,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BlogService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
-    private SeriesRepository seriesRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final TagRepository tagRepository;
+    private final SeriesRepository seriesRepository;
 
     public Map<String, Object> getUserBlogPage(String username) {
         User user = userRepository.findByUsername(username);
